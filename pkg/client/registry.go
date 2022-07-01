@@ -276,19 +276,19 @@ func RegistryFromNode(node *k3d.Node) (*k3d.Registry, error) {
 func RegistryGenerateLocalRegistryHostingConfigMapYAML(ctx context.Context, runtime runtimes.Runtime, registries []*k3d.Registry) ([]byte, error) {
 
 	type cmMetadata struct {
-		Name      string `yaml:"name"`
-		Namespace string `yaml:"namespace"`
+		Name      string `json:"name"`
+		Namespace string `json:"namespace"`
 	}
 
 	type cmData struct {
-		RegHostV1 string `yaml:"localRegistryHosting.v1"`
+		RegHostV1 string `json:"localRegistryHosting.v1"`
 	}
 
 	type configmap struct {
-		APIVersion string     `yaml:"apiVersion"`
-		Kind       string     `yaml:"kind"`
-		Metadata   cmMetadata `yaml:"metadata"`
-		Data       cmData     `yaml:"data"`
+		APIVersion string     `json:"apiVersion"`
+		Kind       string     `json:"kind"`
+		Metadata   cmMetadata `json:"metadata"`
+		Data       cmData     `json:"data"`
 	}
 
 	if len(registries) > 1 {
