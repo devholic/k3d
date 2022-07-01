@@ -2,6 +2,7 @@ package util
 
 import (
 	"bytes"
+	"strings"
 	"testing"
 
 	"gotest.tools/assert"
@@ -13,6 +14,40 @@ type DummyContext struct {
 
 type DummyContextWithTag struct {
 	Name string `json:"newName"`
+}
+
+func TestSplitYAML(t *testing.T) {
+	testSets := map[string]struct {
+		document string
+		expected []string
+	}{
+		"single": {
+			document: `name: clusterA`,
+			expected: []string{
+				`name: clusterA`,
+			},
+		},
+		"multiple": {
+			document: `name: clusterA
+---
+name: clusterB
+`,
+			expected: []string{
+				`name: clusterA`,
+				`name: clusterB`,
+			},
+		},
+	}
+	for name, testSet := range testSets {
+		t.Run(name, func(t *testing.T) {
+			actual, err := SplitYAML([]byte(testSet.document))
+			assert.NilError(t, err)
+			assert.Equal(t, len(testSet.expected), len(actual))
+			for idx := range testSet.expected {
+				assert.Equal(t, testSet.expected[idx], strings.TrimSpace(string(actual[idx])))
+			}
+		})
+	}
 }
 
 func TestYAMLEncoder(t *testing.T) {

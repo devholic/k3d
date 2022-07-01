@@ -21,7 +21,7 @@ func SplitYAML(resources []byte) ([][]byte, error) {
 		if err != nil {
 			return nil, err
 		}
-		valueBytes, err := yaml.Marshal(value)
+		valueBytes, err := goyaml.Marshal(value)
 		if err != nil {
 			return nil, err
 		}
