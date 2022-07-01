@@ -1067,7 +1067,10 @@ func ClusterStart(ctx context.Context, runtime k3drt.Runtime, cluster *k3d.Clust
 								}
 								if kind, ok := doc["kind"]; ok {
 									if strings.ToLower(kind.(string)) == "configmap" {
-										configmapData := doc["data"].(map[interface{}]interface{})
+										configmapData, ok := doc["data"].(map[string]interface{})
+										if !ok {
+											return nil, fmt.Errorf("invalid ConfigMap data type: %T", doc["data"])
+										}
 										configmapData["NodeHosts"] = hosts
 									}
 								}
