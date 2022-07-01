@@ -28,13 +28,14 @@ import (
 
 	"github.com/docker/go-connections/nat"
 	"github.com/imdario/mergo"
+	"sigs.k8s.io/yaml"
+
 	l "github.com/k3d-io/k3d/v5/pkg/logger"
 	"github.com/k3d-io/k3d/v5/pkg/runtimes"
 	"github.com/k3d-io/k3d/v5/pkg/runtimes/docker"
 	k3d "github.com/k3d-io/k3d/v5/pkg/types"
 	"github.com/k3d-io/k3d/v5/pkg/types/k3s"
 	"github.com/k3d-io/k3d/v5/pkg/types/k8s"
-	"gopkg.in/yaml.v2"
 )
 
 func RegistryRun(ctx context.Context, runtime runtimes.Runtime, reg *k3d.Registry) (*k3d.Node, error) {
